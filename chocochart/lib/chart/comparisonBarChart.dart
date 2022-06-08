@@ -2,7 +2,6 @@
 
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:touchable/touchable.dart';
 import 'package:vector_math/vector_math.dart' as vm;
 
 class ComparisonBarChart extends CustomPainter {

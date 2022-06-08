@@ -135,9 +135,15 @@ class _ComparisonBarState extends State<ComparisonBar> {
 
                     Padding(
                       padding: const EdgeInsets.only(top: 80.0, left: 30.0),
-                      child: CustomPaint(
-                        painter: ComparisonBarChart(data),
-                        child: Container(width: 800,),
+                      child: GestureDetector(
+                        onTapDown: (pointer){
+                          var offset = (context.findRenderObject() as RenderBox).globalToLocal(pointer.localPosition);
+                          print(offset);
+                        },
+                        child: CustomPaint(
+                          painter: ComparisonBarChart(data),
+                          child: Container(width: 800, height: 200,),
+                        ),
                       ),
                     ),
 
