@@ -2,6 +2,7 @@
 
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class BarChartCustom extends CustomPainter {
   late final String title;
@@ -46,14 +47,17 @@ class BarChartCustom extends CustomPainter {
     drawTitle(canvas, size);
 
     // Draw target
-    if(targets != null) {
+    if (targets != null) {
       targets?.forEach((value) {
-        if(value["Target"].toString().isNotEmpty) {
+        if (value["Target"].toString().isNotEmpty) {
           drawTarget(canvas, size, value, axis);
+
+
+          drawTriangle(canvas, size, value, axis);
         }
       });
     }
-
+    
   }
 
   void drawTitle(Canvas canvas, Size size) {
@@ -62,48 +66,39 @@ class BarChartCustom extends CustomPainter {
   }
 
   void drawAxes(Canvas canvas, Size size, Paint axis) {
-
     axis.color = Colors.grey.shade100;
 
     canvas.drawLine(
-      Offset(marginTopX,
-          data.entries.length * (paddingY + barHeight) + marginTopY),
-      Offset(size.width,
-          data.entries.length * (paddingY + barHeight) + marginTopY),
+      Offset(marginTopX, data.entries.length * (paddingY + barHeight) + marginTopY),
+      Offset(size.width, data.entries.length * (paddingY + barHeight) + marginTopY),
       axis,
     );
-
     canvas.drawLine(
-      Offset(marginTopX,
-          data.entries.length * (paddingY + barHeight) + marginTopY),
+      Offset(marginTopX, data.entries.length * (paddingY + barHeight) + marginTopY),
       Offset(marginTopX, marginTopY - paddingY),
       axis,
     );
-
   }
 
   void drawTarget(Canvas canvas, Size size, Map<String, String> targets, Paint axis) {
-
-    if(targets["Target"].toString().isNotEmpty) {
-
+    if (targets["Target"].toString().isNotEmpty) {
       double target = double.parse(targets["Target"].toString());
       int dashWidth = 5;
       int interval = (data.entries.length * (paddingY + barHeight) + marginTopY) as int;
 
       // Change Color
-      axis.color = Colors.red;
+      axis.color = const Color.fromRGBO(112, 112, 112, 1);
 
       for (var i = 0; i < interval;) {
         double startY = i as double;
         canvas.drawLine(Offset(target, (startY)), Offset(target, (startY + dashWidth)), axis);
+
         i = i + 10;
       }
 
-      drawText(targets["Label"].toString(), canvas, x: target - 5, y: -10);
-      drawText(targets["Footer"].toString(), canvas, x: target - 5, y: double.parse(interval.toString()) + 10);
-
+      drawText(targets["Label"].toString(), canvas, x: target - 5, y: -10, color: Colors.black);
+      drawText(targets["Footer"].toString(), canvas, x: target - 5, y: double.parse(interval.toString()) + 10, color: Colors.green.shade700);
     }
-
   }
 
   void drawBar(Canvas canvas, Size size, double number, String key, int value) {
@@ -115,9 +110,9 @@ class BarChartCustom extends CustomPainter {
       ..strokeWidth = barHeight
       ..color = Colors.green;
 
-    if(value <= 5) {
+    if (value <= 5) {
       paint.color = Colors.deepOrangeAccent;
-    } else if(value > 5 && value <= 10) {
+    } else if (value > 5 && value <= 10) {
       paint.color = Colors.orangeAccent;
     } else {
       paint.color = Colors.green;
@@ -139,15 +134,32 @@ class BarChartCustom extends CustomPainter {
   }
 
   TextPainter createText(String key, double scale, {Color? color = Colors.grey}) {
-    TextSpan span =
-    TextSpan(style: TextStyle(color: color), text: key);
-    TextPainter tp = TextPainter(
-        text: span,
-        textAlign: TextAlign.left,
-        textScaleFactor: scale,
-        textDirection: TextDirection.ltr);
+    TextSpan span = TextSpan(style: TextStyle(color: color), text: key);
+    TextPainter tp = TextPainter(text: span, textAlign: TextAlign.left, textScaleFactor: scale, textDirection: TextDirection.ltr);
     tp.layout();
     return tp;
+  }
+
+  void drawTriangle(Canvas canvas, Size size, Map<String, String> targets, Paint axis) {
+    if (targets["Target"].toString().isNotEmpty) {
+      double target = double.parse(targets["Target"].toString());
+      int dashWidth = 5;
+      int interval = (data.entries.length * (paddingY + barHeight) + marginTopY) as int;
+
+      // Change Color
+      axis.color = const Color.fromRGBO(112, 112, 112, 1);
+
+      Path pathTriangle = Path()
+        ..moveTo(10 / 2, 0)
+        ..lineTo(0, 10)
+        ..lineTo(10, 10)
+        ..close();
+
+      canvas.drawPath(pathTriangle, axis);
+
+      // drawText(targets["Label"].toString(), canvas, x: target - 5, y: -10, color: Colors.black);
+      // drawText(targets["Footer"].toString(), canvas, x: target - 5, y: double.parse(interval.toString()) + 10, color: Colors.green.shade700);
+    }
   }
 
   @override
