@@ -11,3 +11,4 @@ chocochart/windows/flutter/generated_plugins.cmake
 *.swift
 *.cmake
 *.h
+*.swift
