@@ -6,3 +6,7 @@ chocochart/macos/Flutter/GeneratedPluginRegistrant.swift
 chocochart/windows/flutter/generated_plugin_registrant.cc
 chocochart/windows/flutter/generated_plugin_registrant.h
 chocochart/windows/flutter/generated_plugins.cmake
+*.cc
+*.h
+*.swift
+*.cmake
