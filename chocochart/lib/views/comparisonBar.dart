@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_print, non_constant_identifier_names, empty_catches, avoid_web_libraries_in_flutter
+import 'dart:convert';
 import 'dart:ui';
 import 'package:chocochart/Chart/comparisonBarChart.dart';
 import 'package:flutter/material.dart';
@@ -85,9 +86,15 @@ class _ComparisonBarState extends State<ComparisonBar> {
 
   ];
 
+  late ComparisonBarChart painter;
+  late List<Position> position;
+
   @override
   void initState(){
     super.initState();
+
+    painter = ComparisonBarChart(data);
+    position = [];
   }
 
   @override
@@ -139,10 +146,25 @@ class _ComparisonBarState extends State<ComparisonBar> {
                         onTapDown: (pointer){
                           var offset = (context.findRenderObject() as RenderBox).globalToLocal(pointer.localPosition);
                           print(offset);
+
+                          // var e = painter.positions.firstWhere((element) {
+                          //
+                          // },orElse: Position());
+                          //
+                          // for(var t in painter.positions) {
+                          //
+                          //   print(t.x);
+                          //
+                          //   if(offset.dy >= t.y && offset.dy <= t.y) {
+                          //
+                          //     print(t.value);
+                          //   }
+                          // }
+
                         },
                         child: CustomPaint(
-                          painter: ComparisonBarChart(data),
-                          child: Container(width: 800, height: ComparisonBarChart(data).chartHeight(),),
+                          painter: painter,
+                          child: Container(width: 800, height: painter.chartHeight,),
                         ),
                       ),
                     ),
@@ -155,4 +177,12 @@ class _ComparisonBarState extends State<ComparisonBar> {
         ),
         onWillPop: () async => false);
   }
+}
+
+class Position {
+  late double x;
+  late double y;
+  late String value;
+
+  Position();
 }

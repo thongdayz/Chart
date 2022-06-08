@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' as vm;
 
+import '../views/comparisonBar.dart';
+
 class ComparisonBarChart extends CustomPainter {
 
   ///padding between the bars
@@ -16,6 +18,7 @@ class ComparisonBarChart extends CustomPainter {
   late double marginTopY;
   late List barLeftData = [];
   late List barRightData = [];
+  late List<Position> positionData = [];
   late TextPainter activeText;
   late TextPainter inactiveText;
   late List data;
@@ -43,7 +46,6 @@ class ComparisonBarChart extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-
     // Create a new  instance.
     Paint axis = Paint()
       ..strokeWidth = axisWidth
@@ -56,9 +58,9 @@ class ComparisonBarChart extends CustomPainter {
     int number = 0;
     for(var item in data){
       drawBarLabel(canvas, size, number, item["Label"]);
-      drawBarRight(canvas, size, number, item["data"]["Right"]["Value"]);
+      drawBarRight(canvas, size, number, item["data"]["Right"]["Value"], reference: item["Label"]);
       // drawBarRight(canvas, size, number, item["data"]["Left"]["Value"], color: Colors.blue);
-      drawBarLeft(canvas, size, number, item["data"]["Left"]["Value"]);
+      drawBarLeft(canvas, size, number, item["data"]["Left"]["Value"], reference: item["Label"]);
       number++;
     }
 
@@ -67,18 +69,17 @@ class ComparisonBarChart extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 
-  double maxLeftValue() => barLeftData.reduce((value, element) => value + element);
+  double get chartHeight => (data.length * (paddingY + barHeight) + marginTopY);
 
-  double maxRightValue() => barRightData.reduce((value, element) => value + element);
+  List<Position> get positions => positionData;
 
-  double chartHeight() => (data.length * (paddingY + barHeight) + marginTopY);
 
   void drawBarLabel(Canvas canvas, Size size, int number, String label) {
     double y = number * (paddingY + barHeight) + marginTopY + barHeight / 2;
     drawText(label, canvas, y: y);
   }
 
-  void drawBarRight(Canvas canvas, Size size, int number, double value, {Color color = Colors.deepOrangeAccent}) {
+  void drawBarRight(Canvas canvas, Size size, int number, double value, {Color color = Colors.deepOrangeAccent, String reference = ""}) {
 
     Paint paint = Paint()
       ..strokeWidth = barHeight
@@ -96,11 +97,17 @@ class ComparisonBarChart extends CustomPainter {
       paint,
     );
 
+    Position p = Position();
+    p.x = p1;
+    p.y = (p1 + p4);
+    p.value = reference;
+    positionData.add(p);
+
     drawText("$p2", canvas, x: (p1 + p4) + 5, y: y, color: Colors.blue);
     activeText.paint(canvas, Offset((p1 + 5), (-10) - (activeText.height / 2)));
   }
 
-  void drawBarLeft(Canvas canvas, Size size, int number, double value, {Color color = Colors.blueGrey}) {
+  void drawBarLeft(Canvas canvas, Size size, int number, double value, {Color color = Colors.blueGrey, String reference = ""}) {
     Paint paint = Paint()
       ..strokeWidth = barHeight
       ..color = color;
@@ -112,10 +119,16 @@ class ComparisonBarChart extends CustomPainter {
     double p4 = (p3 / 100) * p1;
 
     canvas.drawLine(
-      Offset(p1 - p4, y),
+      Offset((p1 - p4), y),
       Offset(p1 , y),
       paint,
     );
+
+    Position p = Position();
+    p.x = (p1 - p4);
+    p.y = p1;
+    p.value = reference;
+    positionData.add(p);
 
     drawText("$p2", canvas, x: (p1 - p4) - 20, y: y, color: Colors.blue);
     inactiveText.paint(canvas, Offset((p1 - (inactiveText.width)), (-10) - (inactiveText.height / 2)));
