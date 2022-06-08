@@ -19,77 +19,9 @@ class ComparisonBarChart extends CustomPainter {
   late TextPainter activeText;
   late TextPainter inactiveText;
 
-  late List data = [
+  late List data;
 
-    {
-      "Label" : "Sale one",
-      "data" : {
-        "Left": {
-          "Label": "Inactive",
-          "Value": 50.0
-        },
-        "Right": {
-          "Label": "Active",
-          "Value": 200.0
-        }
-      }
-    },
-    {
-      "Label" : "Sale two",
-      "data" : {
-        "Left": {
-          "Label": "Inactive",
-          "Value": 30.0
-        },
-        "Right": {
-          "Label": "Active",
-          "Value": 80.0
-        }
-      }
-    },
-    {
-      "Label" : "Sale three",
-      "data" : {
-        "Left": {
-          "Label": "Inactive",
-          "Value": 20.0
-        },
-        "Right": {
-          "Label": "Active",
-          "Value": 90.0
-        }
-      }
-    },
-    {
-      "Label" : "Sale four",
-      "data" : {
-        "Left": {
-          "Label": "Inactive",
-          "Value": 80.0
-        },
-        "Right": {
-          "Label": "Active",
-          "Value": 100.0
-        }
-      }
-    },
-    {
-      "Label" : "Sale five",
-      "data" : {
-        "Left": {
-          "Label": "Inactive",
-          "Value": 10.0
-        },
-        "Right": {
-          "Label": "Active",
-          "Value": 300.0
-        }
-      }
-    },
-
-  ];
-
-  ComparisonBarChart({this.barHeight = 30}){
+  ComparisonBarChart(this.data, {this.barHeight = 30}){
 
     activeText = createText("Active", 1, color: Colors.deepOrange);
     inactiveText = createText("Inactive", 1, color: Colors.blueGrey);
@@ -128,7 +60,7 @@ class ComparisonBarChart extends CustomPainter {
     for(var item in data){
       drawBarLabel(canvas, size, number, item["Label"]);
       drawBarRight(canvas, size, number, item["data"]["Right"]["Value"]);
-      drawBarRight(canvas, size, number, item["data"]["Left"]["Value"], color: Colors.blue);
+      // drawBarRight(canvas, size, number, item["data"]["Left"]["Value"], color: Colors.blue);
       drawBarLeft(canvas, size, number, item["data"]["Left"]["Value"]);
       number++;
     }

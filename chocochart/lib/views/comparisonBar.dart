@@ -14,6 +14,77 @@ class ComparisonBar extends StatefulWidget {
 }
 
 class _ComparisonBarState extends State<ComparisonBar> {
+
+  final List data = [
+
+    {
+      "Label" : "Sale one",
+      "data" : {
+        "Left": {
+          "Label": "Inactive",
+          "Value": 50.0
+        },
+        "Right": {
+          "Label": "Active",
+          "Value": 200.0
+        }
+      }
+    },
+    {
+      "Label" : "Sale two",
+      "data" : {
+        "Left": {
+          "Label": "Inactive",
+          "Value": 30.0
+        },
+        "Right": {
+          "Label": "Active",
+          "Value": 80.0
+        }
+      }
+    },
+    {
+      "Label" : "Sale three",
+      "data" : {
+        "Left": {
+          "Label": "Inactive",
+          "Value": 20.0
+        },
+        "Right": {
+          "Label": "Active",
+          "Value": 90.0
+        }
+      }
+    },
+    {
+      "Label" : "Sale four",
+      "data" : {
+        "Left": {
+          "Label": "Inactive",
+          "Value": 80.0
+        },
+        "Right": {
+          "Label": "Active",
+          "Value": 100.0
+        }
+      }
+    },
+    {
+      "Label" : "Sale five",
+      "data" : {
+        "Left": {
+          "Label": "Inactive",
+          "Value": 10.0
+        },
+        "Right": {
+          "Label": "Active",
+          "Value": 300.0
+        }
+      }
+    },
+
+  ];
+
   @override
   Widget build(BuildContext context) {
 
@@ -60,7 +131,7 @@ class _ComparisonBarState extends State<ComparisonBar> {
                     Padding(
                       padding: const EdgeInsets.only(top: 80.0, left: 30.0),
                       child: CustomPaint(
-                        painter: ComparisonBarChart(),
+                        painter: ComparisonBarChart(data),
                         child: Container(width: 800,),
                       ),
                     ),
