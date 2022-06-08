@@ -2,6 +2,7 @@
 
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:touchable/touchable.dart';
 import 'package:vector_math/vector_math.dart' as vm;
 
 class ComparisonBarChart extends CustomPainter {
@@ -18,7 +19,6 @@ class ComparisonBarChart extends CustomPainter {
   late List barRightData = [];
   late TextPainter activeText;
   late TextPainter inactiveText;
-
   late List data;
 
   ComparisonBarChart(this.data, {this.barHeight = 30}){
@@ -40,8 +40,6 @@ class ComparisonBarChart extends CustomPainter {
 
     // define top axis (Y) position
     marginTopY = paddingY;
-
-    print("marginTopX: $marginTopX, marginTopY: $marginTopY");
   }
 
   @override
@@ -80,6 +78,7 @@ class ComparisonBarChart extends CustomPainter {
   }
 
   void drawBarRight(Canvas canvas, Size size, int number, double value, {Color color = Colors.deepOrangeAccent}) {
+
     Paint paint = Paint()
       ..strokeWidth = barHeight
       ..color = color;

@@ -86,6 +86,11 @@ class _ComparisonBarState extends State<ComparisonBar> {
   ];
 
   @override
+  void initState(){
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     double dimentionsWidth = MediaQuery.of(context).size.width;
