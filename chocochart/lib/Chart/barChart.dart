@@ -29,6 +29,7 @@ class BarChartCustom extends CustomPainter {
         marginTopX = text.width + 5;
       }
     });
+
     marginTopY = createText(title, 1.5).height + paddingY;
   }
 

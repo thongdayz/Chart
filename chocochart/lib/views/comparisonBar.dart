@@ -58,11 +58,10 @@ class _ComparisonBarState extends State<ComparisonBar> {
                     ),
 
                     Padding(
-                      padding: const EdgeInsets.only(top: 30.0, left: 30.0),
+                      padding: const EdgeInsets.only(top: 80.0, left: 30.0),
                       child: CustomPaint(
-                        size: const Size.square(400),
                         painter: ComparisonBarChart(),
-                        child: Container(width: 400,),
+                        child: Container(width: 800,),
                       ),
                     ),
 

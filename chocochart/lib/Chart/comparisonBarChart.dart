@@ -9,61 +9,215 @@ class ComparisonBarChart extends CustomPainter {
   ///padding between the bars
   final double paddingY = 5;
   final double axisWidth = 2;
-  final double barHeight = 30;
 
   /// Parameters
+  late double barHeight;
   late double marginTopX = 0;
   late double marginTopY;
-  late List? targets;
+  late List barLeftData = [];
+  late List barRightData = [];
+  late TextPainter activeText;
+  late TextPainter inactiveText;
 
   late List data = [
 
     {
-      "Name" : "Sale one",
+      "Label" : "Sale one",
       "data" : {
         "Left": {
           "Label": "Inactive",
-          "Value": 50
+          "Value": 50.0
         },
         "Right": {
           "Label": "Active",
-          "Value": 50
+          "Value": 200.0
+        }
+      }
+    },
+    {
+      "Label" : "Sale two",
+      "data" : {
+        "Left": {
+          "Label": "Inactive",
+          "Value": 30.0
+        },
+        "Right": {
+          "Label": "Active",
+          "Value": 80.0
+        }
+      }
+    },
+    {
+      "Label" : "Sale three",
+      "data" : {
+        "Left": {
+          "Label": "Inactive",
+          "Value": 20.0
+        },
+        "Right": {
+          "Label": "Active",
+          "Value": 90.0
+        }
+      }
+    },
+    {
+      "Label" : "Sale four",
+      "data" : {
+        "Left": {
+          "Label": "Inactive",
+          "Value": 80.0
+        },
+        "Right": {
+          "Label": "Active",
+          "Value": 100.0
+        }
+      }
+    },
+    {
+      "Label" : "Sale five",
+      "data" : {
+        "Left": {
+          "Label": "Inactive",
+          "Value": 10.0
+        },
+        "Right": {
+          "Label": "Active",
+          "Value": 300.0
         }
       }
     },
 
   ];
 
+  ComparisonBarChart({this.barHeight = 30}){
 
-  // int maxValue() => data.values.reduce(max);
+    activeText = createText("Active", 1, color: Colors.deepOrange);
+    inactiveText = createText("Inactive", 1, color: Colors.blueGrey);
+
+    // define top axis (X) position and Sum of value.
+    for(var item in data){
+
+      barLeftData.add(item["data"]["Left"]["Value"]);
+      barRightData.add(item["data"]["Right"]["Value"]);
+
+      var text = createText(item["Label"], 1);
+      if ((text.width + 5) > marginTopX) {
+        marginTopX = text.width + 5;
+      }
+    }
+
+    // define top axis (Y) position
+    marginTopY = paddingY;
+
+    print("marginTopX: $marginTopX, marginTopY: $marginTopY");
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
-    // TODO: implement paint
+
+    // Create a new  instance.
     Paint axis = Paint()
       ..strokeWidth = axisWidth
       ..color = Colors.grey;
 
+    // Draw axis (X,Y)
     drawAxes(canvas, size, axis);
+
+    // Draw Bar
+    int number = 0;
+    for(var item in data){
+      drawBarLabel(canvas, size, number, item["Label"]);
+      drawBarRight(canvas, size, number, item["data"]["Right"]["Value"]);
+      drawBarRight(canvas, size, number, item["data"]["Left"]["Value"], color: Colors.blue);
+      drawBarLeft(canvas, size, number, item["data"]["Left"]["Value"]);
+      number++;
+    }
+
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+
+  double maxLeftValue() => barLeftData.reduce((value, element) => value + element);
+
+  double maxRightValue() => barRightData.reduce((value, element) => value + element);
+
+  void drawBarLabel(Canvas canvas, Size size, int number, String label) {
+    double y = number * (paddingY + barHeight) + marginTopY + barHeight / 2;
+    drawText(label, canvas, y: y);
+  }
+
+  void drawBarRight(Canvas canvas, Size size, int number, double value, {Color color = Colors.deepOrangeAccent}) {
+    Paint paint = Paint()
+      ..strokeWidth = barHeight
+      ..color = color;
+
+    double y = number * (paddingY + barHeight) + marginTopY + barHeight / 2;
+    double p1 = (size.width / 2); // 100%
+    double p2 = value;
+    double p3 = (p2 / p1) * 100;
+    double p4 = (p3 / 100) * p1;
+
+    canvas.drawLine(
+      Offset(p1, y),
+      Offset((p1 + p4) , y),
+      paint,
+    );
+
+    drawText("$p2", canvas, x: (p1 + p4) + 5, y: y, color: Colors.blue);
+    activeText.paint(canvas, Offset((p1 + 5), (-10) - (activeText.height / 2)));
+  }
+
+  void drawBarLeft(Canvas canvas, Size size, int number, double value, {Color color = Colors.blueGrey}) {
+    Paint paint = Paint()
+      ..strokeWidth = barHeight
+      ..color = color;
+
+    double y = number * (paddingY + barHeight) + marginTopY + barHeight / 2;
+    double p1 = (size.width / 2); // 100%
+    double p2 = value;
+    double p3 = (p2 / p1) * 100;
+    double p4 = (p3 / 100) * p1;
+
+    canvas.drawLine(
+      Offset(p1 - p4, y),
+      Offset(p1 , y),
+      paint,
+    );
+
+    drawText("$p2", canvas, x: (p1 - p4) - 20, y: y, color: Colors.blue);
+    inactiveText.paint(canvas, Offset((p1 - (inactiveText.width)), (-10) - (inactiveText.height / 2)));
+  }
 
   void drawAxes(Canvas canvas, Size size, Paint axis) {
-    axis.color = Colors.grey.shade100;
+    axis.color = Colors.grey.shade500;
 
-    // canvas.drawLine(
-    //   Offset(marginTopX, data.entries.length * (paddingY + barHeight) + marginTopY),
-    //   Offset(size.width, data.entries.length * (paddingY + barHeight) + marginTopY),
-    //   axis,
-    // );
-    //
-    // canvas.drawLine(
-    //   Offset(marginTopX, data.entries.length * (paddingY + barHeight) + marginTopY),
-    //   Offset(marginTopX, marginTopY - paddingY),
-    //   axis,
-    // );
+    // Draw axis (X)
+    canvas.drawLine(
+      Offset(marginTopX, data.length * (paddingY + barHeight) + marginTopY),
+      Offset(size.width, data.length * (paddingY + barHeight) + marginTopY),
+      axis,
+    );
+
+    // Draw axis (Y)
+    canvas.drawLine(
+      Offset(marginTopX, data.length * (paddingY + barHeight) + marginTopY),
+      Offset(marginTopX, marginTopY - paddingY),
+      axis,
+    );
+  }
+
+  void drawText(String key, Canvas canvas, {double x = 0, double y = 0, Color? color = Colors.grey}) {
+    TextPainter tp = createText(key, 1, color: color);
+    tp.paint(canvas, Offset(x, y - tp.height / 2));
+  }
+
+  /// Create the text painter.
+  TextPainter createText(String key, double scale, {Color? color = Colors.grey}) {
+    TextSpan span = TextSpan(style: TextStyle(color: color), text: key);
+    TextPainter tp = TextPainter(text: span, textAlign: TextAlign.left, textScaleFactor: scale, textDirection: TextDirection.ltr);
+    tp.layout();
+    return tp;
   }
 
 }
