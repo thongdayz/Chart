@@ -71,6 +71,8 @@ class ComparisonBarChart extends CustomPainter {
 
   double maxRightValue() => barRightData.reduce((value, element) => value + element);
 
+  double chartHeight() => (data.length * (paddingY + barHeight) + marginTopY);
+
   void drawBarLabel(Canvas canvas, Size size, int number, String label) {
     double y = number * (paddingY + barHeight) + marginTopY + barHeight / 2;
     drawText(label, canvas, y: y);

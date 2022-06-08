@@ -142,7 +142,7 @@ class _ComparisonBarState extends State<ComparisonBar> {
                         },
                         child: CustomPaint(
                           painter: ComparisonBarChart(data),
-                          child: Container(width: 800, height: 200,),
+                          child: Container(width: 800, height: ComparisonBarChart(data).chartHeight(),),
                         ),
                       ),
                     ),

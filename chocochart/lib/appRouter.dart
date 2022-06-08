@@ -29,7 +29,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const ComparisonBar(), settings: settings);
       default:
         return MaterialPageRoute(
-          builder: (_) => const Landing(), settings: settings,);
+          builder: (_) => const ComparisonBar(), settings: settings,);
     }
   }
 }
