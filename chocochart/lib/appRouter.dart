@@ -1,5 +1,7 @@
 // ignore_for_file: file_names, avoid_print
+import 'package:chocochart/views/comparisonBar.dart';
 import 'package:chocochart/views/landing.dart';
+import 'package:chocochart/views/pie.dart';
 import 'package:flutter/material.dart';
 import 'models/routingData.dart';
 
@@ -21,6 +23,10 @@ class AppRouter {
     switch (routingData?.route) {
       case '/landing':
         return MaterialPageRoute(builder: (_) => const Landing(), settings: settings);
+      case '/pie':
+        return MaterialPageRoute(builder: (_) => const Pie(), settings: settings);
+      case '/sale/comparison':
+        return MaterialPageRoute(builder: (_) => const ComparisonBar(), settings: settings);
       default:
         return MaterialPageRoute(
           builder: (_) => const Landing(), settings: settings,);

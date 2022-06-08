@@ -2,4 +2,6 @@
 
 class RouteConfig {
   static String landing = "/landing";
+  static String pie = "/pie";
+  static String saleComparison = "/sale/comparison";
 }

@@ -91,16 +91,7 @@ class _LandingState extends State<Landing> {
                       "KBOL Performance Update : Date as of 1 - 4 May 2022",
                       style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(top: 30.0, left: 30.0),
-                    //   child: CustomPaint(
-                    //     size: const Size.square(400),
-                    //     painter: PieChartCustom(
-                    //       angles: angles,
-                    //       colors: colors,
-                    //     ),
-                    //   ),
-                    // ),
+
                     Padding(
                       padding: const EdgeInsets.all(25),
                       child: CustomPaint(
