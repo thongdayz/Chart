@@ -2,11 +2,13 @@
 
 import 'dart:ui';
 
+import 'package:chocochart/models/enums.dart';
 import 'package:chocochart/models/position.dart';
+import 'package:flutter/foundation.dart';
 
 class PositionManager {
 
-  static void valueReference(Offset pointer, {List<Position>? targets, Position? target})
+  static Position getBarChatValueRef(Offset pointer, {List<Position>? targets, Position? target})
   {
     // Exit function.
     if(targets == null && target == null) throw Exception('Both targets can not be null.');
@@ -14,21 +16,25 @@ class PositionManager {
 
     if(targets!.isNotEmpty) {
       // TODO: get value from position list object.
-
-      print("targets.length ${targets.length}");
-
       for(Position p in targets) {
+        if(pointer.dy >= (p.p1!.dy - (p.barHeight / 2)) && pointer.dy <= (p.p1!.dy + (p.barHeight / 2)) )
+        {
+          if(pointer.dx >= p.p1!.dx && pointer.dx <= p.p2!.dx)
+          {
+            if (kDebugMode) {
+              print("(CLICK) >> pointer $pointer >> Position ${p.p1} ${p.p2} value: ${p.value}");
+            }
+            return p;
+          }
+        }
 
-        print(" pointer.dx > ${pointer.dx} <> p.p1.dx > ${p.p1!.dx}, p.p2.dx > ${p.p2!.dx}");
-        print(" pointer.dy > ${pointer.dy} <> p.p1.dy > ${p.p1!.dy}, p.p2.dy > ${p.p2!.dy}");
-
-
-      }
-
+      } // End Loop
     }
     else {
       // TODO: get value from position object.
     }
+
+    return Position();
 
   }
 
