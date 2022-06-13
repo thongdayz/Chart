@@ -5,6 +5,7 @@ import 'package:chocochart/Chart/comparisonBarChart.dart';
 import 'package:chocochart/chart/positionManager.dart';
 import 'package:chocochart/models/enums.dart';
 import 'package:chocochart/models/position.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:chocochart/Chart/pieChart.dart';
 
@@ -154,7 +155,11 @@ class _ComparisonBarState extends State<ComparisonBar> {
                       child: GestureDetector(
                         onTapDown: (pointer){
                           Offset offset = (context.findRenderObject() as RenderBox).globalToLocal(pointer.localPosition);
-                          PositionManager.getBarChatValueRef(offset, targets: painter.positions);
+                          var p = PositionManager.getBarChatValueRef(offset, targets: painter.positions);
+
+                          if(kDebugMode){
+                            print("Value >>>> ${p.value}");
+                          }
                         },
                         child: CustomPaint(
                           painter: painter,
