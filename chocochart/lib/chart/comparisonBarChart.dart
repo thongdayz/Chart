@@ -30,6 +30,7 @@ class ComparisonBarChart extends CustomPainter {
   late List<Position> _positionData = [];
   late TextPainter _activeText;
   late TextPainter _inactiveText;
+  late Canvas _canvas;
 
 
   ComparisonBarChart(this.data, {this.barHeight = 30, this.reference = ""}){
@@ -54,6 +55,8 @@ class ComparisonBarChart extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    _canvas = canvas;
+
     // Create a new  instance.
     Paint axis = Paint()
       ..strokeWidth = axisWidth
@@ -75,7 +78,7 @@ class ComparisonBarChart extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 
   double get chartHeight => (data.length * (paddingY + barHeight) + _marginTopY);
 

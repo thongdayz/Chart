@@ -150,20 +150,49 @@ class _ComparisonBarState extends State<ComparisonBar> {
                       style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
                     ),
 
+                    // Padding(
+                    //   padding: const EdgeInsets.only(top: 80.0, left: 30.0),
+                    //   child: GestureDetector(
+                    //     onTapDown: (pointer){
+                    //       Offset offset = (context.findRenderObject() as RenderBox).globalToLocal(pointer.localPosition);
+                    //       var p = PositionManager.getBarChatValueRef(offset, targets: painter.positions);
+                    //
+                    //       if(kDebugMode){
+                    //         print("Value >>>> ${p.value}");
+                    //       }
+                    //     },
+                    //     child: CustomPaint(
+                    //       painter: painter,
+                    //       child: SizedBox(width: 800, height: painter.chartHeight,),
+                    //     ),
+                    //   ),
+                    // ),
+
                     Padding(
                       padding: const EdgeInsets.only(top: 80.0, left: 30.0),
-                      child: GestureDetector(
-                        onTapDown: (pointer){
-                          Offset offset = (context.findRenderObject() as RenderBox).globalToLocal(pointer.localPosition);
+                      child: MouseRegion(
+                        onHover: (PointerEvent pointer) {
+                          Offset offset = pointer.localPosition;
                           var p = PositionManager.getBarChatValueRef(offset, targets: painter.positions);
 
-                          if(kDebugMode){
-                            print("Value >>>> ${p.value}");
+                          if(p.value.isNotEmpty) {
+                            print("MouseRegion > onHover > ${pointer.localPosition} Value ${p.value}");
                           }
+
                         },
-                        child: CustomPaint(
-                          painter: painter,
-                          child: SizedBox(width: 800, height: painter.chartHeight,),
+                        child: GestureDetector(
+                          onTapDown: (pointer){
+                            Offset offset = (context.findRenderObject() as RenderBox).globalToLocal(pointer.localPosition);
+                            var p = PositionManager.getBarChatValueRef(offset, targets: painter.positions);
+
+                            if(kDebugMode){
+                              print("CLICK Value >>>> ${p.value}");
+                            }
+                          },
+                          child: CustomPaint(
+                            painter: painter,
+                            child: SizedBox(width: 800, height: painter.chartHeight,),
+                          ),
                         ),
                       ),
                     ),

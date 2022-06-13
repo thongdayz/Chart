@@ -17,13 +17,14 @@ class PositionManager {
     if(targets!.isNotEmpty) {
       // TODO: get value from position list object.
       for(Position p in targets) {
+
         if(pointer.dy >= (p.p1!.dy - (p.barHeight / 2)) && pointer.dy <= (p.p1!.dy + (p.barHeight / 2)) )
         {
           if(pointer.dx >= p.p1!.dx && pointer.dx <= p.p2!.dx)
           {
-            if (kDebugMode) {
-              print("(CLICK) >> pointer $pointer >> Position ${p.p1} ${p.p2} value: ${p.value}");
-            }
+            // if (kDebugMode) {
+            //   print("(CLICK) >> pointer $pointer >> Position ${p.p1} ${p.p2} value: ${p.value}");
+            // }
             return p;
           }
         }
