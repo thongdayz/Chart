@@ -1,10 +1,9 @@
 // ignore_for_file: avoid_print, non_constant_identifier_names, empty_catches, avoid_web_libraries_in_flutter
 
 import 'dart:math';
+import 'package:chocochart/models/position.dart';
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math.dart' as vm;
-
-import '../views/comparisonBar.dart';
 
 class ComparisonBarChart extends CustomPainter {
 
@@ -97,10 +96,12 @@ class ComparisonBarChart extends CustomPainter {
       paint,
     );
 
+    // Set value position
     Position p = Position();
-    p.x = p1;
-    p.y = (p1 + p4);
+    p.p1 = Offset(p1, y);
+    p.p2 = Offset((p1 + p4) , y);
     p.value = reference;
+    p.barHeight = barHeight;
     positionData.add(p);
 
     drawText("$p2", canvas, x: (p1 + p4) + 5, y: y, color: Colors.blue);
@@ -124,9 +125,11 @@ class ComparisonBarChart extends CustomPainter {
       paint,
     );
 
+    // Set value position
     Position p = Position();
-    p.x = (p1 - p4);
-    p.y = p1;
+    p.p1 = Offset((p1 - p4), y);
+    p.p2 = Offset(p1 , y);
+    p.barHeight = barHeight;
     p.value = reference;
     positionData.add(p);
 

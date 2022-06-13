@@ -2,6 +2,8 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:chocochart/Chart/comparisonBarChart.dart';
+import 'package:chocochart/chart/positionManager.dart';
+import 'package:chocochart/models/position.dart';
 import 'package:flutter/material.dart';
 import 'package:chocochart/Chart/pieChart.dart';
 
@@ -30,59 +32,59 @@ class _ComparisonBarState extends State<ComparisonBar> {
           "Value": 200.0
         }
       }
-    },
-    {
-      "Label" : "Sale two",
-      "data" : {
-        "Left": {
-          "Label": "Inactive",
-          "Value": 30.0
-        },
-        "Right": {
-          "Label": "Active",
-          "Value": 80.0
-        }
-      }
-    },
-    {
-      "Label" : "Sale three",
-      "data" : {
-        "Left": {
-          "Label": "Inactive",
-          "Value": 20.0
-        },
-        "Right": {
-          "Label": "Active",
-          "Value": 90.0
-        }
-      }
-    },
-    {
-      "Label" : "Sale four",
-      "data" : {
-        "Left": {
-          "Label": "Inactive",
-          "Value": 80.0
-        },
-        "Right": {
-          "Label": "Active",
-          "Value": 100.0
-        }
-      }
-    },
-    {
-      "Label" : "Sale five",
-      "data" : {
-        "Left": {
-          "Label": "Inactive",
-          "Value": 10.0
-        },
-        "Right": {
-          "Label": "Active",
-          "Value": 300.0
-        }
-      }
-    },
+    }
+    // {
+    //   "Label" : "Sale two",
+    //   "data" : {
+    //     "Left": {
+    //       "Label": "Inactive",
+    //       "Value": 30.0
+    //     },
+    //     "Right": {
+    //       "Label": "Active",
+    //       "Value": 80.0
+    //     }
+    //   }
+    // },
+    // {
+    //   "Label" : "Sale three",
+    //   "data" : {
+    //     "Left": {
+    //       "Label": "Inactive",
+    //       "Value": 20.0
+    //     },
+    //     "Right": {
+    //       "Label": "Active",
+    //       "Value": 90.0
+    //     }
+    //   }
+    // },
+    // {
+    //   "Label" : "Sale four",
+    //   "data" : {
+    //     "Left": {
+    //       "Label": "Inactive",
+    //       "Value": 80.0
+    //     },
+    //     "Right": {
+    //       "Label": "Active",
+    //       "Value": 100.0
+    //     }
+    //   }
+    // },
+    // {
+    //   "Label" : "Sale five",
+    //   "data" : {
+    //     "Left": {
+    //       "Label": "Inactive",
+    //       "Value": 10.0
+    //     },
+    //     "Right": {
+    //       "Label": "Active",
+    //       "Value": 300.0
+    //     }
+    //   }
+    // },
 
   ];
 
@@ -144,22 +146,8 @@ class _ComparisonBarState extends State<ComparisonBar> {
                       padding: const EdgeInsets.only(top: 80.0, left: 30.0),
                       child: GestureDetector(
                         onTapDown: (pointer){
-                          var offset = (context.findRenderObject() as RenderBox).globalToLocal(pointer.localPosition);
-                          print(offset);
-
-                          // var e = painter.positions.firstWhere((element) {
-                          //
-                          // },orElse: Position());
-                          //
-                          // for(var t in painter.positions) {
-                          //
-                          //   print(t.x);
-                          //
-                          //   if(offset.dy >= t.y && offset.dy <= t.y) {
-                          //
-                          //     print(t.value);
-                          //   }
-                          // }
+                          Offset offset = (context.findRenderObject() as RenderBox).globalToLocal(pointer.localPosition);
+                          PositionManager.valueReference(offset, targets: (painter.positions as List<Position>));
 
                         },
                         child: CustomPaint(
@@ -177,12 +165,4 @@ class _ComparisonBarState extends State<ComparisonBar> {
         ),
         onWillPop: () async => false);
   }
-}
-
-class Position {
-  late double x;
-  late double y;
-  late String value;
-
-  Position();
 }
